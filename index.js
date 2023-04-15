@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 
 require('dotenv').config();
 
-
 const _ = require('lodash');
 
 const app = express();
@@ -13,7 +12,16 @@ mongoose.set('strictQuery', false);
 
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect('mongodb+srv://selenagomez21:99887711@todo.cbpcojh.mongodb.net/todolistDB');
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('Connected to MongoDB');
+}).catch((error) => {
+  console.error(error);
+});
+
+
 
 
 
