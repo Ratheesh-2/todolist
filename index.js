@@ -12,9 +12,15 @@ mongoose.set('strictQuery', false);
 
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect('mongodb+srv://selenagomez21:99887711@todo.cbpcojh.mongodb.net/test');
-
-
+const connectDB = async () => {
+    try{
+        const conn = await mongoose.connect(process.env.MONGO_URI);
+        console.log(`mongoDB Connnected: ${conn.connection.host}`);
+    }catch(error){
+        console.log(error);
+        process.exit(1);
+    }
+}
 
 
 
@@ -145,6 +151,8 @@ app.post('/delete',(req,res)=>{
 // });
 
 
-app.listen(PORT,()=>{
-    console.log('listening on port 3000');
-});
+connectDB().then(() => {
+    app.listen(PORT, () =>{
+        console.log(`Listening on port ${PORT}`);
+    })
+})
